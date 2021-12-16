@@ -1,0 +1,154 @@
+---
+title: "Code for individual cases"
+author: Brittany Frechette and Victoria Worley
+output: pdf
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+##This loop was written to systematically pull the search scores for each case by region, but it pulled NAs only. 
+data$caseName = tolower(data$caseName)
+
+keyword <- data$caseName
+results <- list()
+
+# Function
+.get_trends <- function(keyword) {
+  trends <- gtrends(
+    keyword = as.vector(keyword),
+    geo = "US",
+    low_search_volume = T,
+    gprop = "web",
+    time = "2010-10-01 2020-07-15"
+  )
+  return(trends$interest_by_region)
+}
+
+# Wrap in safely to protect against failed requests
+get_trends <- possibly(.get_trends, otherwise = NA)
+
+# Loop over the keywords and store results
+for (i in 1:length(keyword)) {
+    results [[i]] <- get_trends(keyword[i])
+    Sys.sleep(5)
+}
+
+# Extract results dataframes from results list and filter out failed calls bit doesn't work and won't let the document knit
+#results_list <- map(results, ~ .x$result)
+#newdata <- newdata %>% 
+  #mutate(df = results_list) %>% 
+  #as_tibble() %>% 
+  #filter(!is.na(df))
+
+
+##so, we handcoded each case
+first.ghits <- gtrends(keyword = "los angeles humphries", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+first <- first.ghits$interest_by_region
+first <- first %>%
+  spread(keyword, value = hits)
+
+second.ghits <- gtrends(keyword = "costco omega", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+second <- second.ghits$interest_by_region
+second <- second %>%
+  spread(keyword, value = hits)
+
+#drop
+third.ghits <- gtrends(keyword = "madison county oneida nation", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web",low_search_volume = T)
+
+third <- third.ghits$interest_by_region
+third <- third %>%
+  spread(keyword, value = hits)
+
+fourth.ghits <- gtrends(keyword = "ransom fia card services", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+fourth <- fourth.ghits$interest_by_region
+fourth <- fourth %>%
+  spread(keyword, value = hits)
+
+fifth.ghits <- gtrends(keyword = "premo oregon state", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+#drop
+fifth <- fifth.ghits$interest_by_region
+fifth <- fifth %>%
+  spread(keyword, value = hits)
+
+sixth.ghits <- gtrends(keyword = "nasa nelson", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+sixth <- sixth.ghits$interest_by_region
+sixth <- sixth %>%
+  spread(keyword, value = hits)
+
+seventh.ghits <- gtrends(keyword = "chase bank mccoy", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+seventh <- seventh.ghits$interest_by_region
+seventh <- seventh %>%
+  spread(keyword, value = hits)
+
+eighth.ghits <- gtrends(keyword = "ortiz jordan", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+eighth <- eighth.ghits$interest_by_region
+eighth <- eighth %>%
+  spread(keyword, value = hits)
+
+nine.ghits <- gtrends(keyword = "thompson north american stainless", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+nine <- nine.ghits$interest_by_region
+nine <- nine %>%
+  spread(keyword, value = hits)
+
+ten.ghits <- gtrends(keyword = "bruesewitz wyeth", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+ten <- ten.ghits$interest_by_region
+ten <- ten %>%
+  spread(keyword, value = hits)
+
+#drop
+eleven.ghits <- gtrends(keyword = "csx transportation alabama revenue", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+eleven <- eleven.ghits$interest_by_region
+eleven <- eleven %>%
+  spread(keyword, value = hits)
+
+#drop
+twelve.ghits <- gtrends(keyword = "walker warden martin", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+twelve <- twelve.ghits$interest_by_region
+twelve <- twelve %>%
+  spread(keyword, value = hits)
+
+thirteen.ghits <- gtrends(keyword = "williamson mazda", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+thirteen <- thirteen.ghits$interest_by_region
+thirteen <- thirteen %>%
+  spread(keyword, value = hits)
+
+fourteen.ghits <- gtrends(keyword = "fcc att", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+fourteen <- fourteen.ghits$interest_by_region
+fourteen <- fourteen %>%
+  spread(keyword, value = hits)
+
+fifteen.ghits <- gtrends(keyword = "staub proctor hospital", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+fifteen <- fifteen.ghits$interest_by_region
+fifteen <- fifteen %>%
+  spread(keyword, value = hits)
+
+#drop
+sixteenth.ghits <- gtrends(keyword = "henderson shineski veterans affairs", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+sixteenth <- sixteenth.ghits$interest_by_region
+sixteenth <- sixteenth %>%
+  spread(keyword, value = hits)
+
+seventeenth.ghits <- gtrends(keyword = "milner department of navy", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+seventeenth <- seventeenth.ghits$interest_by_region
+seventeenth <- seventeenth %>%
+  spread(keyword, value = hits)
+```
