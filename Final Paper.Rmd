@@ -1,0 +1,400 @@
+---
+title: "Final Paper"
+author: "Brittany Frechette and Victoria Worley"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warnings = FALSE, message = FALSE, echo = TRUE)
+rm(list=ls())
+set.seed(100)
+setwd("/Users/victoriaworley/Desktop")
+
+library(ggpubr)
+library(stargazer)
+library(ggplot2) 
+library(ggthemes)
+library(arm)
+library(sjPlot)
+library(sjmisc)
+library(interplot)
+library(stargazer)
+library(lmtest)
+library(dlnm)
+library(foreign)
+library(orcutt)
+library(stargazer)
+library(foreign)
+library(plm)
+library(lmtest)
+library(pcse)
+library(tinytex)
+library(xtable)
+library(utf8)
+library(ggrepel)
+library(bibtex)
+library(knitr)
+library(tidyverse)
+library(gtrendsR)
+library(censusapi)
+library(dplyr)
+library(readxl)
+library(lmtest)
+library(plm)
+library(stargazer)
+library(pROC)
+library(dplyr)
+library(forcats)
+library(curl)
+library(usmap)
+library(gtrendsR)
+library(haven)
+library(grid)
+
+devtools::install_github("PMassicotte/gtrendsR")
+
+data <- read.csv("/Users/victoriaworley/Desktop/survdata.csv", header=T, sep=",", encoding = "UTF-8")
+
+```
+
+\begin{centering}
+
+  {\bf Abstract}
+
+  \end{centering}
+
+Public opinion varies across the United States due to a variety of factors like varying political cultures, populations, ideologies, and needs.  These differences, though, have yet to be mapped out to determine regional variations in attention to the legal questions before the Supreme Court.  Google Trends scores serve as a proxy for public interest in these cases that allow for systematic study.  Ultimately, we find that there is differential interest in areas of law that can be explained by region. 
+
+\newpage
+
+**Introduction**
+
+States have long been a revered part of the American political system for mimicking the cultures of their respective populations.  Scholars have long touted the idea of regional political cultures that fuel these areas’ ideological preferences and institutional arrangements.  While the relevance of political cultures has been questioned as the communication across state lines and interstate migration has increased, there are still notable differences between the states.  If the states’ politics, as defined by the political elite in office and the institutional arrangements of the states, are clustered by region, it should follow that the public’s interests should be regionally clustered, too.  
+
+These differences, however, are usually analyzed in the context of a legislator diverting their interests towards legislation that will affect their district; representatives will barter for money or projects that will be funneled into their districts based on their districts needs.  This is local interest going to a local location.  What has yet to be analyzed, though, is how the public’s interest varies by region when an issue affects the whole country.  Supreme Court decisions are meaningful legal decisions that affect the political decisions of the country at large.  Pockets of interest often involve themselves in the litigation process, highlighting the divisive and important nature of these decisions.  It should follow those states and their citizens would tailor their interests to certain cases more than others.  If a case originates from a particular state, or the legal question involves a regional interest, particular regions should pay more attention to certain cases than others.
+
+Regional variations in attention to court cases is of immense importance to the judicial process.  If certain states or regions find particular legal questions more salient than others, its likely those citizens and organized interests in those regions will devote more resources towards the political process.  Unlike a legislator trying to get a roadway project in their district, federal court cases have tangible effects across regions, whether or not the region is invested in the decision or not.  While certain judicial cases are nationally salient, like abortion or gun litigation, these regional interests are likely to substantively impact the decisions of federal courts.  Individual interest leads to individual action.  Furthermore, legislators, responsive to constituent interests, are more likely to make a marked stance against a case when they feel that their constituents have strong preferences one way or another.  Legislative threat of Court-curbing is a well-regarded influencer of the judicial process as well.  So, regional interest in different legal questions of immense importance to the court’s decision-making process.
+
+This paper will address the regional variations in attention to Supreme Court case issue-areas by using Google Trends search scores to map out public attention.  These scores capture people’s actual interest, not proxies, like newspaper articles, that can be assessed.  By establishing Google Trends scores as a valid measure of public interest, then studying regional variation in the Supreme Court and particular areas of law, claims can be made about the differential nature of attention to court cases. 
+
+**Google Trends Scores as a Measure of Public Interest and Attention**
+
+Google is an enigmatic feature of American politics.  While scholarly literature has touted Americans as inattentive and uninterested in the political process, this is not consistent across all regions or persons (Berelson et al. 1954; Campbell et al. 1960; Collins and Cooper 2012).  Google's emergence as a key source of information highlights the modern ease of seeking out political information.  The differences between internet and non-internet users are virtually indistinguishable (Mellon 2013). This is an important consideration to make, as it indicates that this data is representative of the population at large. This is an improvement over using print media as a gauge for salience; instead of using media elite publishing stories as a proxy for citizenry’s attentiveness to an issue, internet search data captures the general public’s relative interest and its temporal shifts on a topic.  Google searches allow the public to gain access to information that was not once nearly as accessible when scholars first touted the notions of an unengaged public.  People use Google to gain information about events, including court cases and laws with which they not be already familiar. Therefore, Google’s accessibility and salience in the American public makes Google a critical feature of American politics. 
+
+Google Trends is a free and publicly accessible database that provides a clear and concise measure of present-level data. The measure is based on a total query search time series index (Choi and Varian 2012). The total query search term can them be calculated across geographic region, time range, category of query, and the type of Google search method (i.e. Google Search, Image Search, Shopping, etc.). One fall back of the Google Trends data is that it is not provided in total observed search volume, but rather in a relative scale across all queries and time. However, this still allows for the temporal and regional variances in search terms to be ascertained, allowing for issue salience to be gauged.
+
+Choi and Varian (2012) posit that search engine data can “predict the present” (2). Their study on forecasting near-term values of economic indicators finds that Google Trends data can provide a useful and contemporaneous measure of query relevance. Mellon (2013) conducts a comparison of search data and a common salience measurement, Gallup’s “most important problem” question, to determine the validity of search data when measuring issue salience. Ultimately, he finds strong correlations between search data and existing salience measures on certain issues and less significant correlations on others, but contends that internet search data can provide a wider picture of agenda setting. This signals the potential of Google Trends data to indicate issue salience. Furthermore, Chykina and Crabtree (2018) visualize the congruence of search data and political events, giving credence to search data’s ability to account for temporal changes in the public’s attentiveness towards an issue.
+
+**Data and Methods**
+
+*Data*
+
+The data from this paper will come from two main sources: Google Trend scores and the Supreme Court DataBase (SCDB) (Spaeth et al. 2021).  Scores will be gathered from 10/01/2010 to 07/15/2020.  Cases will be limited to those heard from the 2010-2019 terms.  States will be divided into regional categories, as defined by the U.S. Census Bureau, with Washington D.C. serving as a baseline for comparison.  The variable of interest in this project is the Google Trends score at the state-level.  These scores will be regressed on the region that the state is in, as well as the state's citizen ideology score (Berry et al. 1998) in 2015 and the state's population (Census Bureau 2021) in 2015.  While ideology is not an equivalent for partisanship, the two measures are comparable.  Since each political party has different platforms and issues it cares about, this may influence the case issue areas a state's citizens are interested in.
+
+*Models*
+
+To best research the regional variances in attention to legal issues in front of the Supreme Court, this paper will have three parts.  The first part will examine whether there are regional differences in search scores on the Supreme Court generally.  This is necessary to establish that attention to and interest in the Court is not consistent across the United States.  So, by establishing this, a discussion for why attention may vary and how it is different across interest areas can be explored. 
+
+The second portion will be centered on searches of legal issues that come before the Supreme Court.  The SCDB  (Spaeth et al. 2021) identifies case issue areas that will be searched and regionally mapped out.  Included in this paper are searches on: “economic activity law,” “civil rights law,” “federalism law,” “union law,” and “privacy law.”  These case issue areas were included as they were thought to be the most salient of the issue areas provided and encompass most of the cases heard by the Supreme Court each term.  These differences are then aggregated regionally, and an OLS model will be ran to compare between-region differences in the attention to the scores. 
+
+The last section of the paper is centered on sampling random cases from each issue area to pull their specific case name search scores to see if this supports the findings on regional interests in case issue areas.  Cases cannot be randomly sampled; since public knowledge on and attention to the Supreme Court is generally low, many cases do not have enough attention to pull the state-level scores for.  So, cases that have scores will be pulled to further test the previous model.  
+
+**Results**
+
+*General Supreme Court Interest*
+
+As seen in Table 1 and Figure 1, there is some evidence of regional differences in Googling "Supreme Court cases."  The intercept, which represents Washington D.C., is statistically significant.  All other regions represent a statistically significant decline in the Google Trends scores for searching "Supreme Court cases" at the 95% confidence level, which is consistent with expectations that D.C. would be a highly political area.  This suggests that there are regional differences in interest in Supreme Court cases.  Notably, though, neither a state's ideology or population are not statistically significant indicators.  
+
+\begin{table}[!htbp] 
+\centering 
+  \caption{Regional Influences on Googling 'Supreme Court Cases'} 
+  \label{} 
+  \footnotesize
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline \\[-1.8ex] 
+\\[-1.8ex] & 'Supreme Court Cases' GT Score \\ 
+\hline \\[-1.8ex] 
+ West & $-$37.884$^{***}$ \\ 
+  & (13.537) \\ 
+  South & $-$41.779$^{***}$ \\ 
+  & (13.893) \\ 
+  Midwest & $-$34.466$^{**}$ \\ 
+  & (13.921) \\ 
+  Northeast & $-$27.243$^{**}$ \\ 
+  & (12.422) \\ 
+  Ideology & $-$0.350$^{**}$ \\ 
+  & (0.135) \\ 
+  Population in (100,000) & $-$0.038 \\ 
+  & (0.023) \\ 
+  Constant & 118.943$^{***}$ \\ 
+  & (17.142) \\ 
+ N & 51 \\ 
+R$^{2}$ & 0.295 \\ 
+Adjusted R$^{2}$ & 0.198 \\ 
+Residual Std. Error & 11.229 (df = 44) \\ 
+F Statistic & 3.062$^{**}$ (df = 6; 44) \\ 
+\hline \\[-1.8ex] 
+\multicolumn{2}{l}{$^{*}$p $<$ .1; $^{**}$p $<$ .05; $^{***}$p $<$ .01} \\ 
+\multicolumn{2}{l}{Two-tailed p values; standard errors in parantheses.} \\
+\end{tabular} 
+\end{table} 
+
+
+```{r, include='FALSE'}
+#getting GT scores for case issue areas
+
+g.hits.economic <- gtrends(keyword = "economic law", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+economic.hits <- g.hits.economic$interest_by_region
+economic.hits <- economic.hits %>%
+  spread(keyword, value = hits)
+
+g.hits.cr <- gtrends(keyword = "civil rights law", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+cr.hits <- g.hits.cr$interest_by_region
+cr.hits <- cr.hits %>%
+  spread(keyword, value = hits)
+
+g.hits.fed <- gtrends(keyword = "federalism law", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+fed.hits <- g.hits.fed$interest_by_region
+fed.hits <- fed.hits %>%
+  spread(keyword, value = hits)
+
+g.hits.union <- gtrends(keyword = "union law", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+union.hits <- g.hits.union$interest_by_region
+union.hits <- union.hits %>%
+  spread(keyword, value = hits)
+
+g.hits.priv <- gtrends(keyword = "privacy law", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+priv.hits <- g.hits.priv$interest_by_region
+priv.hits <- priv.hits %>%
+  spread(keyword, value = hits)
+
+g.hits.general <- gtrends(keyword = "supreme court cases", geo = "US", time = "2010-10-01 2020-07-15", gprop = "web", low_search_volume = T)
+
+general.hits <- g.hits.general$interest_by_region
+general.hits <- general.hits %>%
+  spread(keyword, value = hits)
+
+#cleaning the data
+
+firstbind <- cbind(cr.hits, economic.hits)
+secondbind <- cbind(firstbind, fed.hits)
+thirdbind <- cbind(secondbind, union.hits)
+fourthbind <- cbind(thirdbind, priv.hits)
+final <- cbind(fourthbind, general.hits)
+
+#adding the region to the dataset 
+
+region <- c(2, 1, 1, 2, 1, 1, 4, 2, 0, 2, 2, 1, 1, 3, 3, 3, 3, 2, 2, 4, 2, 4, 3, 3, 2, 3, 1, 3, 1, 4, 4, 1, 4, 2, 3, 3, 2, 1, 4, 4, 2, 3, 2, 2, 1, 4, 2, 1, 2, 3, 1)
+
+ideology <- c(34.95671082, 50.52630997, 42.35709, 33.41155243, 57.86972046, 45.54472733, 94.95393372, 56.22381592, 96.22381592, 47.21016693, 41.93097305, 78.9668808, 25.63771629, 58.16982651, 40.02309799, 42.48844528, 33.37453842, 44.62511063, 39.24360657, 65.24729156, 59.3705101, 76.18045807, 53.93254852, 51.88925934, 44.15943909, 41.97447968, 49.15466309, 21.60536194, 51.24279022, 51.28731537, 62.60531235, 54.49877167, 69.71250153, 51.78697968, 29.4707737, 47.17525482, 23.06973267, 54.70230865, 52.11684036, 80.93688965, 38.15911865, 34.59616852, 33.76624298, 39.0453186, 24.17560768, 87.15790558, 41.32202148, 51.41989899, 43.43034744, 48.27238464, 25.57586861)
+
+population <- c(48.52347, 7.37498, 68.29676, 29.78048, 389.18045, 54.50623, 35.87122, 9.41252, 6.754, 202.09042, 101.78447, 14.22052, 16.51059, 128.58913, 66.08422, 31.2096, 29.09011, 44.25976, 46.64628, 13.28262, 59.85562, 67.94228, 99.31715, 54.82032, 29.88471, 60.71732, 10.30475, 18.91277, 28.66939, 13.3635, 88.67949, 20.89291, 196.54666, 100.31646, 7.54066, 116.17527, 39.095, 40.15792, 127.84826, 10.56065, 48.91938, 8.53988, 65.9117, 274.70056, 29.81835, 6.25216, 83.61808, 71.63657, 18.4205, 57.6094, 5.85613)
+
+finalfinal <- cbind(final, region, ideology, population)
+
+finalfinal <- finalfinal[ , !duplicated(colnames(finalfinal))]
+
+finalfinal[9, 6] = 0
+
+finalfinal <- rename(finalfinal, scc = 'supreme court cases')
+finalfinal <- rename(finalfinal, states = location)
+finalfinal <- rename(finalfinal, econ = "economic law")
+finalfinal <- rename(finalfinal, civilr = "civil rights law")
+finalfinal <- rename(finalfinal, union = "union law")
+finalfinal <- rename(finalfinal, federalism = "federalism law")
+finalfinal <- rename(finalfinal, privacy = "privacy law")
+
+#getting data to run in us_maps function
+generalStates <- g.hits.general$interest_by_region
+generalStates$fips <-fips(generalStates$location)
+
+economicStates <- g.hits.economic$interest_by_region
+economicStates$fips <-fips(economicStates$location)
+
+crStates <- g.hits.cr$interest_by_region
+crStates$fips <-fips(crStates$location)
+
+fedStates <- g.hits.fed$interest_by_region
+fedStates$fips <-fips(fedStates$location)
+
+unionStates <- g.hits.union$interest_by_region
+unionStates$fips <-fips(unionStates$location)
+
+privStates <- g.hits.priv$interest_by_region
+privStates$fips <-fips(privStates$location)
+```
+
+```{r, include='false'}
+#Plotting Figure 1
+fig1 <- plot_usmap(data = generalStates, values = "hits", labels=FALSE) + 
+  scale_fill_continuous( low = "white", high = "blue", 
+                         name = "Google Trend Scores", label = scales::comma
+  ) + 
+  theme(legend.position = "right") + 
+  theme(panel.background = element_rect(colour = "black")) + 
+  labs(title = "Figure 1: 'Supreme Court Cases' Google Trends Score by State")
+```
+```{r, echo = 'FALSE'}
+print(fig1)
+```
+
+```{r, include='FALSE'}
+#making Table 1
+sccmodel <- lm(scc ~ as.factor(region) + ideology + population, data=finalfinal); summary(sccmodel)
+
+stargazer(sccmodel, dep.var.labels = "'Supreme Court Cases' GT Score", covariate.labels = c("West", "South", "Midwest", "Northeast", "Ideology", "Population in (100,000)"), style = "apsr", title = "Regional Influences on Googling Supreme Court Cases") 
+```
+\newpage
+
+*Regional Attention to Specific Areas of Law*
+
+As seen in Table 2, there are statistically significant differences across most regions in Google Trends scores for searches of case issue areas of law.  Again, Washington D.C. serves as a baseline.  
+
+For economic law, civil rights law, and privacy law models, all regions were statistically significant predictors of a state's Google Trend score at the 95% confidence level.  This indicates that there are significant differences in a region's attention to these particular issue areas.  A state's population was not a substantive indicator of their respective search scores for any of these terms.  A state's ideology was not indicative of their likelihood to search "economic law" or "civil rights law," but it was a positive and significant predictor of searching "privacy law."  This may be due to especially ideological issues like abortion or Freedom of Information Act regulations.  
+
+The "federalism law" and "union law" searches are of interesting note.  The only indicator with any significance is the South region, but this isn't even at the 95% confidence level, only with 90% confidence.  This makes substantive sense, as the South's conservative nature highlights the pro-states' rights questions that are at the heart of most federalism cases.  In terms of the "union law" model, the Midwest is the only regional predictor of a state's likelihood of searching union law, although only at the 90% confidence level.  Again, this makes substantive sense, as there is a preponderance of unions in the region.  
+
+
+\begin{table}[!htbp] \centering 
+  \caption{Regional Influences on Googling Supreme Court Case Issue Areas} 
+  \label{} 
+  \footnotesize{}
+\begin{tabular}{@{\extracolsep{5pt}}lccccc} 
+\\[-1.8ex]\hline \\[-1.8ex] 
+\\[-1.8ex] & 'Economic Law & 'Civil Rights Law' & 'Federalism Law' & 'Union Law' & 'Privacy Law' \\ 
+\\[-1.8ex] & (1) & (2) & (3) & (4) & (5)\\ 
+\hline \\[-1.8ex] 
+ West & $-$52.797$^{***}$ & $-$61.745$^{***}$ & 76.647$^{**}$ & $-$33.928$^{*}$ & $-$67.768$^{***}$ \\ 
+  & (12.558) & (8.737) & (26.350) & (18.590) & (6.961) \\ 
+  South & $-$40.456$^{***}$ & $-$53.886$^{***}$ & 103.031$^{***}$ & $-$36.557$^{*}$ & $-$70.813$^{***}$ \\ 
+  & (12.796) & (9.074) & (27.287) & (19.410) & (7.259) \\ 
+  Midwest & $-$48.521$^{***}$ & $-$61.250$^{***}$ & 79.276$^{**}$ & $-$35.712$^{*}$ & $-$70.797$^{***}$ \\ 
+  & (12.574) & (8.970) & (26.700) & (19.089) & (7.140) \\ 
+  Northeast & $-$52.981$^{***}$ & $-$62.617$^{***}$ & 59.799$^{**}$ & $-$32.111$^{*}$ & $-$65.828$^{***}$ \\ 
+  & (11.131) & (8.000) & (23.462) & (17.399) & (6.431) \\ 
+  Ideology & 0.069 & 0.042 & 0.655 & 0.244 & 0.105 \\ 
+  & (0.145) & (0.096) & (0.441) & (0.205) & (0.075) \\ 
+  Population (in 100,000) & 0.007 & $-$0.001 & $-$0.011 & $-$0.020 & 0.010 \\ 
+  & (0.021) & (0.015) & (0.035) & (0.033) & (0.012) \\ 
+  Constant & 93.293$^{***}$ & 95.950$^{***}$ & $-$62.957 & 72.631$^{***}$ & 89.823$^{***}$ \\ 
+  & (16.736) & (11.536) & (44.169) & (24.583) & (9.108) \\ 
+ N & 40 & 42 & 18 & 40 & 42 \\ 
+R$^{2}$ & 0.550 & 0.709 & 0.777 & 0.306 & 0.842 \\ 
+Adjusted R$^{2}$ & 0.468 & 0.659 & 0.656 & 0.179 & 0.814 \\ 
+Residual Std. Error & 9.273 (df = 33) & 6.979 (df = 35) & 12.371 (df = 11) & 14.760 (df = 33) & 5.553 (df = 35) \\ 
+F Statistic & 6.710$^{***}$ (df = 6; 33) & 14.219$^{***}$ (df = 6; 35) & 6.404$^{***}$ (df = 6; 11) & 2.422$^{**}$ (df = 6; 33) & 30.973$^{***}$ (df = 6; 35) \\ 
+\hline \\[-1.8ex] 
+\multicolumn{6}{l}{$^{*}$p $<$ .1; $^{**}$p $<$ .05; $^{***}$p $<$ .01} \\ 
+\multicolumn{2}{l}{Two-tailed p values; standard errors in parantheses.} \\
+\end{tabular} 
+\end{table} 
+
+
+```{r, include='FALSE'}
+#running models for each case issue area
+econmodel <- lm(econ ~ as.factor(region) + ideology + population, data=finalfinal); summary(econmodel)
+
+crmodel <- lm(civilr ~ as.factor(region) + ideology + population, data=finalfinal); summary(crmodel)
+
+fedmodel <- lm(federalism ~ as.factor(region) + ideology + population, data=finalfinal); summary(fedmodel)
+
+unionmodel <- lm(union ~ as.factor(region) + ideology + population, data=finalfinal); summary(unionmodel)
+
+privmodel <- lm(privacy ~ as.factor(region) + ideology + population, data=finalfinal); summary(privmodel)
+
+stargazer(econmodel, crmodel, fedmodel, unionmodel, privmodel, dep.var.labels = "Case Issue Area GT Scores", covariate.labels = c("West", "South", "Midwest", "Northeast", "Ideology", "Population (in 100,000)"), style = "apsr", title = "Regional Influences on Googling Supreme Court Case Issue Areas") 
+```
+
+```{r, include='FALSE'}
+#plotting Figures 2-6
+fig2 <- plot_usmap(data = economicStates, values = "hits", labels=FALSE) + 
+  scale_fill_continuous( low = "white", high = "blue", 
+                         name = "Google Trend Scores", label = scales::comma
+  ) + 
+  theme(legend.position = "right") + 
+  theme(panel.background = element_rect(colour = "black")) + 
+  labs(title = "Figure 2: 'Economic' Google Trends Score by State")
+
+fig3 <- plot_usmap(data = crStates, values = "hits", labels=FALSE) + 
+  scale_fill_continuous( low = "white", high = "blue", 
+                         name = "Google Trend Scores", label = scales::comma
+  ) + 
+  theme(legend.position = "right") + 
+  theme(panel.background = element_rect(colour = "black")) + 
+  labs(title = "Figure 3: 'Civil Rights Law' Google Trends Score by State")
+
+fig4 <- plot_usmap(data = fedStates, values = "hits", labels=FALSE) + 
+  scale_fill_continuous( low = "white", high = "blue", 
+                         name = "Google Trend Scores", label = scales::comma
+  ) + 
+  theme(legend.position = "right") + 
+  theme(panel.background = element_rect(colour = "black")) + 
+  labs(title = "Figure 4: 'Federalism Law' Google Trends Score by State")
+
+fig5 <- plot_usmap(data = unionStates, values = "hits", labels=FALSE) + 
+  scale_fill_continuous( low = "white", high = "blue", 
+                         name = "Google Trend Scores", label = scales::comma
+  ) + 
+  theme(legend.position = "right") + 
+  theme(panel.background = element_rect(colour = "black")) + 
+  labs(title = "Figure 5: 'Union Law' Google Trends Score by State")
+
+fig6 <- plot_usmap(data = privStates, values = "hits", labels=FALSE) + 
+  scale_fill_continuous( low = "white", high = "blue", 
+                         name = "Google Trend Scores", label = scales::comma
+  ) + 
+  theme(legend.position = "right") + 
+  theme(panel.background = element_rect(colour = "black")) + 
+  labs(title = "Figure 6: 'Privacy Law' Google Trends Score by State")
+```
+```{r}
+print(fig2)
+
+print(fig3)
+
+print(fig4)
+
+print(fig5)
+
+print(fig6)
+```
+
+*Case Specific Searches*
+
+To firmly pin down the relationship between case issue area law Google Trend searches and interest in Supreme Court cases, a third step should be taken.  Cases-name search scores should also be analyzed; "law" is not a perfect predictor for interest in Supreme Court cases, but by analyzing the interest specific cases, the claims on regional interest can be substantiated.  
+
+However, this presents several difficulties, namely the lack of data.  Americans are not usually interested in politics, especially complex issues, like Supreme Court cases.  So, specific case name searches do not pull enough data to generate Google Trend scores.  Coding a for-loop to systematically pull state-level Google Trend scores for specific case-name resulted in all NAs.  Pulling scores by hand-coding case-name searches with just the party names also produced similar result, with only one of 17 cases having some states with scores.  Ultimately, while this sort of search is necessary to necessary to produce any meaningful claims about regional interest in Supreme Court case issue areas, this line of research is a ways off until data is more widely accessible\footnote {For the code where this was attempted, see git file: https://github.com/bfrechet/Supreme-Court-Case-Variations/blob/2960f0f0ec1c3f76d62c7428b997c894ad617343/codeforindividualcases.Rmd}. 
+
+**Conclusion**
+
+While national public opinion is public is of importance to many areas of politics, sub-national opinion is arguably more important; states define and pass more policies than the national government does, and these policies are typically more meaningful in the day to day lives of citizens.  However, it is unrealistic to think that public opinion or interest in issues would be the same across states.  Political culture and regional differences create pocketed interests across the country that should be studied and accounted for (Elazar 1966; Erickson, Wright, McIver 1993; Berry et al. 1998).  Surveys that collect opinions on congressional policies are inherently skewed; due to phenomenons like pork barrel legislation and home-style legislators, congressional bills do not affect all areas equally, so it is not reasonable to map out interests based on these policies.  However, Supreme Court decisions and their political ramifications affect all areas of the country.  This should be a fine starting point for mapping out the regional variations in issue areas. 
+
+Google Trends scores provide an ample starting point for this endeavor.  While the scores are arbitrarily scaled across all queries and all time, they do allow for state to state comparisons that allow for regional explorations.  There is statistically significant and substantive evidence that there are regional differences in public interest in "Supreme Court cases," which is a starting point for understanding the relationship between interest in Supreme Court cases and regions.  Also, there are regional differences when looking up law on case issue-areas, which again indicates that particular areas of the country care about different Court cases.  Future avenues of research should continue to explore the regional variations that occur in case interest, especially in regards to issue-areas and specific case interest, as interest in areas of law are not a perfect proxy interest in cases.  This line of research would further substantiate the claims presented in this paper and open the door for dialogue on sub-national politics in a new and exciting manner. 
+
+\newpage
+
+**References**
+
+Berelson, Bernard R., Paul F. Lazarsfeld, and William N. McPhee. 1954.  *Voting: A Study of Opinion Formation in a Presidential Campaign.*  Chicago, IL: University of Chicago Press. 
+
+Berry, William D., Evan J. Ringquist, Richard C. Fording, and Russell C. Hanson. 1998. “Measuring Citizen and Government Ideology in the American States, revised 1960-2016.” *American Journal of Political Science* 42(1): 327-48.
+
+Campbell, Angus, Philip E. Converse, William E. Miller, and Donald E. Stokes. 1960. *The American Voter*. Wiley: New York, NY.
+
+Census Bureau. 2021.  "State Population Totals and Components of Change: 2010-2019."  *United States Census Bureau.*
+
+Choi, Hyunyoung, and Hal Varian. 2012. “Predicting the Present with Google Trends.” *The Economic Record* 88(1): 2-9.
+
+Chykina, Volha, and Charles Crabtree. 2018. “Using Google Trends to Measure Issue Salience for Hard-to-Survey Populations.” *Socius: Sociological Research for a Dynamic World* 4(1): 1-3.
+
+Collins, Todd A., and Christopher A. Cooper. 2012. “Case Salience and Media Coverage of Supreme Court Decisions: Towards a New Measure.” *Political Research Quarterly* 65(2): 396- 407.
+
+Elazar, Daniel J.. 1966. *American Federalism: A View from the States.* Crowell: New York, N.Y..
+
+
